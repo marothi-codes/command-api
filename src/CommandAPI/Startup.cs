@@ -1,4 +1,5 @@
 using CommandAPI.Data;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+using Npgsql;
 
 using System;
 using System.Collections.Generic;
@@ -28,9 +31,13 @@ namespace CommandAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new NpgsqlConnectionStringBuilder();
+            builder.ConnectionString = Configuration.GetConnectionString("PostgreSqlConnection");
+            builder.Username = Configuration["dbUser"];
+            builder.Password = Configuration["dbPassword"];
+
             services.AddDbContext<CommandContext>(
-                options =>
-                    options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnection"))
+                options => options.UseNpgsql(builder.ConnectionString)
             );
 
             services.AddControllers();
