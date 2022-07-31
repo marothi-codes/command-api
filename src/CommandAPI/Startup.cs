@@ -1,3 +1,5 @@
+using AutoMapper;
+
 using CommandAPI.Data;
 
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +43,7 @@ namespace CommandAPI
             );
 
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICommandAPIRepo, CommandAPIRepo>();
         }
 
