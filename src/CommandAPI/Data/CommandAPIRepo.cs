@@ -45,7 +45,7 @@ namespace CommandAPI.Data
 
         public void UpdateCommand(Command command)
         {
-            throw new System.NotImplementedException();
+            // TODO: Implement the update operation
         }
     }
 }
