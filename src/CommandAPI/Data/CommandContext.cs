@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-
 using CommandAPI.Models;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace CommandAPI.Data
 {

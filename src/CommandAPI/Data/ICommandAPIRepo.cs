@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 using CommandAPI.Models;
+
+using System.Collections.Generic;
 
 namespace CommandAPI.Data
 {
