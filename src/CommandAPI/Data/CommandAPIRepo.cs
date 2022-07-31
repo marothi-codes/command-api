@@ -1,7 +1,8 @@
+using CommandAPI.Models;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using CommandAPI.Models;
 
 namespace CommandAPI.Data
 {
@@ -16,7 +17,10 @@ namespace CommandAPI.Data
 
         public void CreateCommand(Command command)
         {
-            throw new System.NotImplementedException();
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
+
+            _context.Commands.Add(command);
         }
 
         public void DeleteCommand(Command command)
