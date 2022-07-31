@@ -10,6 +10,9 @@ namespace CommandAPI.Profiles
         public CommandsProfile()
         {
             CreateMap<Command, CommandReadDto>();
+
+            // Source ➤ Target (Mappings for write operations).
+            CreateMap<CommandCreateDto, Command>();
         }
     }
 }
