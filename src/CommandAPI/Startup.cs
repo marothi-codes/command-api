@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Newtonsoft.Json.Serialization;
+
 using Npgsql;
 
 using System;
@@ -42,7 +44,15 @@ namespace CommandAPI
                 options => options.UseNpgsql(builder.ConnectionString)
             );
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(
+                    s =>
+                    {
+                        s.SerializerSettings.ContractResolver =
+                            new CamelCasePropertyNamesContractResolver();
+                    }
+                );
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ICommandAPIRepo, CommandAPIRepo>();
         }
