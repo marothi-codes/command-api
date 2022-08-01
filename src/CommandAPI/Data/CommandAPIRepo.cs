@@ -25,7 +25,10 @@ namespace CommandAPI.Data
 
         public void DeleteCommand(Command command)
         {
-            throw new System.NotImplementedException();
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
+
+            _context.Commands.Remove(command);
         }
 
         public IEnumerable<Command> GetAllCommands()
@@ -45,7 +48,9 @@ namespace CommandAPI.Data
 
         public void UpdateCommand(Command command)
         {
-            // TODO: Implement the update operation
+            // TODO: Implement the update operation for other ORM types
+            // NOTE: EntityFrameworkCore does not require an explicit implementation
+            // since it already change tracking unless otherwise specified.
         }
     }
 }
