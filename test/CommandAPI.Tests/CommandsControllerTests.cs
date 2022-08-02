@@ -41,7 +41,7 @@ namespace CommandAPI.Tests
         }
 
         [Fact]
-        public void GetCommands_Return200OK_WhenDbIsEmpty()
+        public void Get_Return200OK_WhenDbIsEmpty()
         {
             // Arrange
             mockRepo.Setup(repo => repo.GetAllCommands()).Returns(GetCommands(0));
@@ -56,7 +56,7 @@ namespace CommandAPI.Tests
         }
 
         [Fact]
-        public void GetAllCommands_ReturnsOneItem_WhenDbHasOneResource()
+        public void Get_ReturnsOneItem_WhenDbHasOneResource()
         {
             // Arrange
             mockRepo.Setup(repo => repo.GetAllCommands()).Returns(GetCommands(1));
@@ -69,6 +69,36 @@ namespace CommandAPI.Tests
             var okResult = result.Result as OkObjectResult;
             var commands = okResult.Value as List<CommandReadDto>;
             Assert.Single(commands);
+        }
+
+        [Fact]
+        public void Get_Returns200OK_WhenDbHasOneResource()
+        {
+            // Arrange
+            mockRepo.Setup(repo => repo.GetAllCommands()).Returns(GetCommands(1));
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            // Act
+            var result = controller.Get();
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public void Get_ReturnsCorrectType_WhenDbHasOneResource()
+        {
+            // Arrange
+            mockRepo.Setup(repo => repo.GetAllCommands()).Returns(GetCommands(1));
+
+            var controller = new CommandsController(mockRepo.Object, mapper);
+
+            // Act
+            var result = controller.Get();
+
+            // Assert
+            Assert.IsType<ActionResult<IEnumerable<CommandReadDto>>>(result);
         }
 
         private List<Command> GetCommands(int num)
