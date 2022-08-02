@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Collections.Generic;
 
-namespace CommandAPI
+namespace CommandAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
