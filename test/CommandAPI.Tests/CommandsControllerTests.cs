@@ -170,6 +170,51 @@ namespace CommandAPI.Tests
 		}
 		#endregion
 
+		#region PostCommand Unit Tests
+		[Fact]
+		public void PostCommand_ReturnsCorrectResourceType_WhenValidObjectIsSubmitted()
+		{
+			// Arrange
+			mockRepo.Setup(repo =>
+				repo.GetCommandById(1)).Returns(new Command
+				{
+					Id = 1,
+					HowTo = "mock",
+					Platform = "Mock",
+					CommandLine = "Mock"
+				});
+
+			var controller = new CommandsController(mockRepo.Object, mapper);
+
+			// Act
+			var result = controller.PostCommand(new CommandCreateDto { });
+
+			// Assert
+			Assert.IsType<ActionResult<CommandReadDto>>(result);
+		}
+
+		[Fact]
+		public void PostCommand_Returns201Created_WhenValidObjectIsSubmitted()
+		{
+			//Arrange
+			mockRepo.Setup(repo =>
+			repo.GetCommandById(1)).Returns(new Command
+			{
+				Id = 1,
+				HowTo = "mock",
+				Platform = "Mock",
+				CommandLine = "Mock"
+			});
+			var controller = new CommandsController(mockRepo.Object, mapper);
+
+			//Act
+			var result = controller.PostCommand(new CommandCreateDto { });
+
+			//Assert
+			Assert.IsType<CreatedAtRouteResult>(result.Result);
+		}
+		#endregion
+
 		private List<Command> GetCommands(int num)
 		{
 			var commands = new List<Command>();
