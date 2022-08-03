@@ -252,6 +252,63 @@ namespace CommandAPI.Tests
 		}
 		#endregion
 
+		#region PatchCommand Unit Tests
+		[Fact]
+		public void PatchCommand_Returns404NotFound_WhenNonExistentResourceIdIsSubmitted()
+		{
+			//Arrange
+			mockRepo.Setup(repo =>
+			repo.GetCommandById(0)).Returns(() => null);
+			var controller = new CommandsController(mockRepo.Object, mapper);
+
+			//Act
+			var result = controller.PatchCommand(
+				0, new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument<CommandUpdateDto>
+				{ });
+
+			//Assert
+			Assert.IsType<NotFoundResult>(result);
+		}
+		#endregion
+
+		#region DeleteCommand Unit Tests
+		[Fact]
+		public void DeleteCommand_Returns204NoContent_WhenValidResourceIdIsSubmitted()
+		{
+			//Arrange
+			mockRepo.Setup(repo =>
+			repo.GetCommandById(1)).Returns(new Command
+			{
+				Id = 1,
+				HowTo = "mock",
+				Platform = "Mock",
+				CommandLine = "Mock"
+			});
+
+			var controller = new CommandsController(mockRepo.Object, mapper);
+
+			//Act
+			var result = controller.DeleteCommand(1);
+			//Assert
+			Assert.IsType<NoContentResult>(result);
+		}
+
+		[Fact]
+		public void DeleteCommand_Returns404NotFound_WhenInvalidIdIsSubmitted()
+		{
+			//Arrange
+			mockRepo.Setup(repo => repo.GetCommandById(0)).Returns(() => null);
+
+			var controller = new CommandsController(mockRepo.Object, mapper);
+
+			//Act
+			var result = controller.DeleteCommand(0);
+
+			//Assert
+			Assert.IsType<NotFoundResult>(result);
+		}
+		#endregion
+
 		private List<Command> GetCommands(int num)
 		{
 			var commands = new List<Command>();
