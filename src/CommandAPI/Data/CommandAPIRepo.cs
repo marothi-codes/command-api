@@ -33,7 +33,7 @@ namespace CommandAPI.Data
 
         public IEnumerable<Command> GetAllCommands()
         {
-            return _context.Commands.ToList();
+            return _context.Commands.AsNoTracking().ToList();
         }
 
         public Command GetCommandById(int id)
